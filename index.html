@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>募資倒數計時器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            min-height: 250px;
+        }
+
+        .countdown-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            background: transparent;
+            padding: 20px 15px;
+        }
+
+        .admin-toggle {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #d1d5db;
+            border: none;
+            color: transparent;
+            padding: 0;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0;
+            transition: all 0.3s ease;
+            width: 5px;
+            height: 5px;
+        }
+
+        .admin-toggle:hover {
+            background: #9ca3af;
+            transform: scale(1.4);
+        }
+
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid #e5e7eb;
+            z-index: 1001;
+            min-width: 320px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .admin-panel.show {
+            display: block;
+        }
+
+        .admin-title {
+            font-size: 1.3em;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: #374151;
+            text-align: center;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .time-unit {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 200px;
+            flex: 0 0 auto;
+            background: transparent;
+            padding: 10px 10px;
+            transition: all 0.3s ease;
+        }
+
+        .time-unit:hover {
+            transform: translateY(-2px);
+        }
+
+        .circle-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+
+        .circle-progress {
+            transform: rotate(-90deg);
+            width: 200px;
+            height: 200px;
+        }
+
+        .circle-progress circle {
+            fill: none;
+            stroke-width: 14;
+            stroke-linecap: round;
+        }
+
+        .circle-bg-stroke {
+            stroke: #f3f4f6;
+        }
+
+        .circle-progress-stroke {
+            stroke: #fbbf24;
+            stroke-dasharray: 503;
+            stroke-dashoffset: 503;
+            transition: stroke-dashoffset 1s ease-in-out;
+        }
+
+        .time-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            font-weight: bold;
+            color: #1e40af;
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 1.2em;
+            color: #1e40af;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+
+        .color-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 8px;
+        }
+
+        .color-input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .color-input-group label {
+            font-size: 0.75em;
+            color: #6b7280;
+            font-weight: normal;
+        }
+
+        .color-input-group input[type="color"] {
+            width: 60px;
+            height: 40px;
+            padding: 2px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+            background: white;
+        }
+
+        .input-group input, .input-group select {
+            width: 180px;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.95em;
+            background: white;
+            color: #374151;
+            transition: all 0.3s ease;
+        }
+
+        .input-group select {
+            width: 200px;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .input-group input[type="color"] {
+            width: 50px;
+            height: 30px;
+            padding: 1px;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #059669;
+        }
+
+        .btn-clear {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background: #dc2626;
+        }
+
+        .btn-reset {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #4b5563;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            background: white;
+            color: #374151;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .password-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .status {
+            color: #1e40af;
+            font-size: 1.1em;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .finished {
+            animation: pulse 1s infinite;
+            color: #ef4444;
+            font-size: 1.2em;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            .countdown-container {
+                gap: 10px;
+            }
+            
+            .time-unit {
+                min-width: 140px;
+            }
+            
+            .circle-container {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .circle-progress {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .time-number {
+                font-size: 2.8em;
+            }
+            
+            .time-label {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-wrapper">
+        <button class="admin-toggle" onclick="toggleAdmin()"></button>
+        
+        <div class="admin-panel" id="adminPanel">
+            <input type="password" id="adminPassword" class="password-input" placeholder="" onkeypress="checkPassword(event)">
+            
+            <div id="adminControls" style="display: none;">
+                <div class="controls">
+                    <div class="input-group">
+                        <input type="date" id="targetDate">
+                    </div>
+                    <div class="input-group">
+                        <select id="autoRestart">
+                            <option value="none">不重新倒數</option>
+                            <option value="daily">每日重新倒數</option>
+                            <option value="2days">每兩天重新倒數</option>
+                            <option value="3days">每三天重新倒數</option>
+                            <option value="weekly">每週重新倒數</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <select id="language">
+                            <option value="zh">中文 (天 小時 分 秒)</option>
+                            <option value="en">English (DAYS HOURS MINUTES SECONDS)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="displayText" placeholder="顯示文字">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="endText" placeholder="結束文字">
+                    </div>
+                    
+                    <div class="color-section">
+                        <div class="color-input-group">
+                            <label>數字標籤</label>
+                            <input type="color" id="numberColor" value="#1e40af">
+                        </div>
+                        <div class="color-input-group">
+                            <label>底部文字</label>
+                            <input type="color" id="textColor" value="#1e40af">
+                        </div>
+                        <div class="color-input-group">
+                            <label>進度條</label>
+                            <input type="color" id="progressColor" value="#fbbf24">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-save" onclick="saveCountdown()">儲存</button>
+                    <button class="btn-clear" onclick="clearCountdown()">清除</button>
+                    <button class="btn-reset" onclick="resetColors()">重置</button>
+                </div>
+            </div>
+        </div>
+
+                        <div class="countdown-container">
+            <div class="time-unit">
+                <div class="circle-container">
+                    <svg class="circle-progress">
+                        <circle cx="100" cy="100" r="80" class="circle-bg-stroke"></circle>
+                        <circle cx="100" cy="100" r="80" class="circle-progress-stroke" id="daysCircle"></circle>
+                    </svg>
+                    <div class="time-number" id="days">0</div>
+                </div>
+                <div class="time-label">DAYS</div>
+            </div>
+            <div class="time-unit">
+                <div class="circle-container">
+                    <svg class="circle-progress">
+                        <circle cx="100" cy="100" r="80" class="circle-bg-stroke"></circle>
+                        <circle cx="100" cy="100" r="80" class="circle-progress-stroke" id="hoursCircle"></circle>
+                    </svg>
+                    <div class="time-number" id="hours">0</div>
+                </div>
+                <div class="time-label">HOURS</div>
+            </div>
+            <div class="time-unit">
+                <div class="circle-container">
+                    <svg class="circle-progress">
+                        <circle cx="100" cy="100" r="80" class="circle-bg-stroke"></circle>
+                        <circle cx="100" cy="100" r="80" class="circle-progress-stroke" id="minutesCircle"></circle>
+                    </svg>
+                    <div class="time-number" id="minutes">0</div>
+                </div>
+                <div class="time-label">MINUTES</div>
+            </div>
+            <div class="time-unit">
+                <div class="circle-container">
+                    <svg class="circle-progress">
+                        <circle cx="100" cy="100" r="80" class="circle-bg-stroke"></circle>
+                        <circle cx="100" cy="100" r="80" class="circle-progress-stroke" id="secondsCircle"></circle>
+                    </svg>
+                    <div class="time-number" id="seconds">0</div>
+                </div>
+                <div class="time-label">SECONDS</div>
+            </div>
+        </div>
+
+        <div class="status" id="status">募資倒數計時</div>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = "94186057";
+        let countdownInterval = null;
+        let targetDateTime = null;
+
+        function toggleAdmin() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.toggle('show');
+            if (!panel.classList.contains('show')) {
+                document.getElementById('adminPassword').value = '';
+                document.getElementById('adminControls').style.display = 'none';
+            }
+        }
+
+        function checkPassword(event) {
+            if (event.key === 'Enter') {
+                const password = document.getElementById('adminPassword').value;
+                if (password === ADMIN_PASSWORD) {
+                    document.getElementById('adminControls').style.display = 'block';
+                    loadSavedSettings();
+                    loadSavedColors();
+                } else {
+                    alert('密碼錯誤！');
+                    document.getElementById('adminPassword').value = '';
+                }
+            }
+        }
+
+        function saveCountdown() {
+            const date = document.getElementById('targetDate').value;
+            const time = '23:59'; // 固定時間為 23:59
+            
+            if (!date) {
+                alert('請選擇日期！');
+                return;
+            }
+
+            const targetString = `${date}T${time}:00`;
+            targetDateTime = new Date(targetString);
+            
+            const taipeiOffset = 8 * 60;
+            const localOffset = targetDateTime.getTimezoneOffset();
+            targetDateTime = new Date(targetDateTime.getTime() + (taipeiOffset + localOffset) * 60000);
+
+            window.countdownSettings = {
+                targetDateTime: targetDateTime.toISOString(),
+                date: date,
+                time: time,
+                autoRestart: document.getElementById('autoRestart').value,
+                language: document.getElementById('language').value,
+                displayText: document.getElementById('displayText').value || '募資倒數計時',
+                endText: document.getElementById('endText').value || '募資已結束！'
+            };
+
+            saveColors();
+            updateLanguage();
+            startCountdown();
+            
+            const displayText = document.getElementById('displayText').value || '募資倒數計時';
+            document.getElementById('status').textContent = displayText;
+            toggleAdmin();
+        }
+
+        function saveColors() {
+            const colors = {
+                numberColor: document.getElementById('numberColor').value,
+                labelColor: document.getElementById('numberColor').value, // 使用相同顏色
+                textColor: document.getElementById('textColor').value,
+                progressColor: document.getElementById('progressColor').value
+            };
+            window.colorSettings = colors;
+            applyColors();
+        }
+
+        function loadSavedSettings() {
+            if (window.countdownSettings) {
+                const settings = window.countdownSettings;
+                document.getElementById('targetDate').value = settings.date;
+                // 不需要載入時間，固定為 23:59
+                document.getElementById('autoRestart').value = settings.autoRestart || 'none';
+                document.getElementById('language').value = settings.language || 'en';
+                document.getElementById('displayText').value = settings.displayText || '募資倒數計時';
+                document.getElementById('endText').value = settings.endText || '募資已結束！';
+                targetDateTime = new Date(settings.targetDateTime);
+                updateLanguage();
+                startCountdown();
+            }
+        }
+
+        function loadSavedColors() {
+            if (window.colorSettings) {
+                const colors = window.colorSettings;
+                document.getElementById('numberColor').value = colors.numberColor;
+                document.getElementById('textColor').value = colors.textColor || '#1e40af';
+                document.getElementById('progressColor').value = colors.progressColor;
+                applyColors();
+            }
+        }
+
+        function applyColors() {
+            const numberColor = document.getElementById('numberColor').value;
+            const textColor = document.getElementById('textColor').value;
+            const progressColor = document.getElementById('progressColor').value;
+
+            // 數字和標籤使用相同顏色
+            document.querySelectorAll('.time-number').forEach(el => {
+                el.style.color = numberColor;
+            });
+            
+            document.querySelectorAll('.time-label').forEach(el => {
+                el.style.color = numberColor; // 使用相同顏色
+            });
+
+            document.getElementById('status').style.color = textColor;
+
+            document.querySelectorAll('.circle-progress-stroke').forEach(circle => {
+                circle.style.stroke = progressColor;
+            });
+        }
+
+        function updateLanguage() {
+            const language = document.getElementById('language').value;
+            const labels = document.querySelectorAll('.time-label');
+            
+            if (language === 'zh') {
+                labels[0].textContent = '天';
+                labels[1].textContent = '小時';
+                labels[2].textContent = '分';
+                labels[3].textContent = '秒';
+            } else {
+                labels[0].textContent = 'DAYS';
+                labels[1].textContent = 'HOURS';
+                labels[2].textContent = 'MINUTES';
+                labels[3].textContent = 'SECONDS';
+            }
+        }
+
+        function resetColors() {
+            document.getElementById('numberColor').value = '#1e40af';
+            document.getElementById('progressColor').value = '#fbbf24';
+            window.colorSettings = null;
+            applyColors();
+        }
+
+        function clearCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            targetDateTime = null;
+            window.countdownSettings = null;
+            updateDisplay(0, 0, 0, 0);
+            document.getElementById('status').textContent = '募資倒數計時';
+            toggleAdmin();
+        }
+
+        function calculateNextTarget(originalTarget, autoRestart) {
+            const now = new Date();
+            const taipeiNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Taipei"}));
+            
+            if (autoRestart === 'daily') {
+                // 每日重新倒數：設定為明天的同一時間
+                const nextTarget = new Date(originalTarget);
+                while (nextTarget <= taipeiNow) {
+                    nextTarget.setDate(nextTarget.getDate() + 1);
+                }
+                return nextTarget;
+            } else if (autoRestart === '2days') {
+                // 每兩天重新倒數：設定為兩天後的同一時間
+                const nextTarget = new Date(originalTarget);
+                while (nextTarget <= taipeiNow) {
+                    nextTarget.setDate(nextTarget.getDate() + 2);
+                }
+                return nextTarget;
+            } else if (autoRestart === '3days') {
+                // 每三天重新倒數：設定為三天後的同一時間
+                const nextTarget = new Date(originalTarget);
+                while (nextTarget <= taipeiNow) {
+                    nextTarget.setDate(nextTarget.getDate() + 3);
+                }
+                return nextTarget;
+            } else if (autoRestart === 'weekly') {
+                // 每週重新倒數：設定為下週的同一天同一時間
+                const nextTarget = new Date(originalTarget);
+                while (nextTarget <= taipeiNow) {
+                    nextTarget.setDate(nextTarget.getDate() + 7);
+                }
+                return nextTarget;
+            }
+            return null;
+        }
+
+        function updateCircleProgress(elementId, current, max) {
+            const circle = document.getElementById(elementId);
+            const circumference = 2 * Math.PI * 80;
+            const progress = max > 0 ? (current / max) : 0;
+            const offset = circumference - (progress * circumference);
+            
+            circle.style.strokeDasharray = circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        function startCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+
+            countdownInterval = setInterval(() => {
+                if (!targetDateTime) return;
+
+                const now = new Date();
+                const taipeiNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Taipei"}));
+                const timeDiff = targetDateTime - taipeiNow;
+
+                if (timeDiff <= 0) {
+                    clearInterval(countdownInterval);
+                    updateDisplay(0, 0, 0, 0);
+                    
+                    // 顯示結束訊息
+                    const settings = window.countdownSettings;
+                    const endText = settings?.endText || '募資已結束！';
+                    document.getElementById('status').innerHTML = `<div class="finished">🎉 ${endText}</div>`;
+                    
+                    // 檢查是否需要自動重新倒數
+                    if (settings && settings.autoRestart !== 'none') {
+                        const nextTarget = calculateNextTarget(targetDateTime, settings.autoRestart);
+                        if (nextTarget) {
+                            // 等待3秒後自動重新開始
+                            setTimeout(() => {
+                                targetDateTime = nextTarget;
+                                
+                                // 更新儲存的設定
+                                settings.targetDateTime = targetDateTime.toISOString();
+                                const newDate = targetDateTime.toISOString().split('T')[0];
+                                const newTime = '23:59'; // 固定時間
+                                settings.date = newDate;
+                                settings.time = newTime;
+                                
+                                window.countdownSettings = settings;
+                                
+                                const displayText = settings.displayText || '募資倒數計時';
+                                document.getElementById('status').textContent = displayText;
+                                
+                                updateLanguage();
+                                startCountdown();
+                            }, 3000);
+                        }
+                    }
+                } else {
+                    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+                    updateDisplay(days, hours, minutes, seconds);
+                }
+            }, 1000);
+        }
+
+        function updateDisplay(days, hours, minutes, seconds) {
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+
+            updateCircleProgress('daysCircle', days, 365);
+            updateCircleProgress('hoursCircle', hours, 24);
+            updateCircleProgress('minutesCircle', minutes, 60);
+            updateCircleProgress('secondsCircle', seconds, 60);
+        }
+
+        function init() {
+            updateDisplay(0, 0, 0, 0);
+            
+            ['numberColor', 'textColor', 'progressColor'].forEach(id => {
+                document.getElementById(id).addEventListener('input', applyColors);
+            });
+            
+            // 語言選擇器事件監聽
+            document.getElementById('language').addEventListener('change', updateLanguage);
+            
+            if (window.countdownSettings) {
+                loadSavedSettings();
+            }
+            if (window.colorSettings) {
+                loadSavedColors();
+            }
+
+            // 點擊外部關閉面板
+            document.addEventListener('click', function(e) {
+                const panel = document.getElementById('adminPanel');
+                const toggle = document.querySelector('.admin-toggle');
+                
+                if (!panel.contains(e.target) && !toggle.contains(e.target)) {
+                    panel.classList.remove('show');
+                }
+            });
+        }
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
