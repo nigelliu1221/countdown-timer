@@ -1,72 +1,57 @@
 <!DOCTYPE html>
-<html lang="zh-TW" style="margin:0;padding:0;height:auto;">
+<html style="margin:0;padding:0;height:100px;overflow:hidden;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>倒數計時器</title>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box;}
-        html,body{margin:0!important;padding:0!important;height:auto!important;min-height:0!important;background:transparent;font-family:Arial,sans-serif;overflow-x:hidden;}
-        .wrap{display:flex;justify-content:center;align-items:center;gap:8px;width:100%;max-width:1200px;margin:0 auto;padding:0 10px;height:auto;min-height:0;}
-        .unit{position:relative;width:100px;height:100px;flex-shrink:0;}
-        .circle{width:100%;height:100%;transform:rotate(-90deg);}
-        .bg{fill:none;stroke:#e5e7eb;stroke-width:8;}
-        .progress{fill:none;stroke:#f59e0b;stroke-width:8;stroke-linecap:round;stroke-dasharray:314;stroke-dashoffset:314;transition:stroke-dashoffset 1s ease;}
-        .content{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
-        .num{font-size:1.8em;font-weight:bold;color:#1f2937;margin:0;line-height:1;}
-        .label{font-size:0.7em;color:#374151;font-weight:600;margin:0;line-height:1;margin-top:2px;}
-        @media (max-width:768px){.wrap{gap:6px;padding:0 8px;}.unit{width:80px;height:80px;}.num{font-size:1.4em;}.label{font-size:0.6em;}.bg,.progress{stroke-width:6;}}
-        @media (max-width:480px){.wrap{gap:4px;padding:0 5px;}.unit{width:65px;height:65px;}.num{font-size:1.1em;}.label{font-size:0.5em;}.bg,.progress{stroke-width:5;}}
-        @media (max-width:400px){.wrap{gap:3px;padding:0 3px;}.unit{width:55px;height:55px;}.num{font-size:1em;}.label{font-size:0.45em;}.bg,.progress{stroke-width:4;}}
-    </style>
 </head>
-<body style="margin:0!important;padding:0!important;">
-<div class="wrap">
-    <div class="unit">
-        <svg class="circle" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="40" class="bg"></circle>
-            <circle cx="50" cy="50" r="40" class="progress" id="daysCircle"></circle>
+<body style="margin:0;padding:0;height:100px;overflow:hidden;font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;background:transparent;">
+<div style="display:flex;gap:8px;align-items:center;height:100px;">
+    <div style="position:relative;width:90px;height:90px;">
+        <svg style="width:100%;height:100%;transform:rotate(-90deg);" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="8"></circle>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="8" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251" id="daysCircle" style="transition:stroke-dashoffset 1s ease;"></circle>
         </svg>
-        <div class="content">
-            <div class="num" id="days">0</div>
-            <div class="label">天</div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+            <div style="font-size:1.8em;font-weight:bold;color:#1f2937;margin:0;line-height:1;" id="days">0</div>
+            <div style="font-size:0.7em;color:#374151;font-weight:600;margin:0;margin-top:2px;">天</div>
         </div>
     </div>
-    <div class="unit">
-        <svg class="circle" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="40" class="bg"></circle>
-            <circle cx="50" cy="50" r="40" class="progress" id="hoursCircle"></circle>
+    <div style="position:relative;width:90px;height:90px;">
+        <svg style="width:100%;height:100%;transform:rotate(-90deg);" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="8"></circle>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="8" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251" id="hoursCircle" style="transition:stroke-dashoffset 1s ease;"></circle>
         </svg>
-        <div class="content">
-            <div class="num" id="hours">0</div>
-            <div class="label">小時</div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+            <div style="font-size:1.8em;font-weight:bold;color:#1f2937;margin:0;line-height:1;" id="hours">0</div>
+            <div style="font-size:0.7em;color:#374151;font-weight:600;margin:0;margin-top:2px;">小時</div>
         </div>
     </div>
-    <div class="unit">
-        <svg class="circle" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="40" class="bg"></circle>
-            <circle cx="50" cy="50" r="40" class="progress" id="minutesCircle"></circle>
+    <div style="position:relative;width:90px;height:90px;">
+        <svg style="width:100%;height:100%;transform:rotate(-90deg);" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="8"></circle>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="8" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251" id="minutesCircle" style="transition:stroke-dashoffset 1s ease;"></circle>
         </svg>
-        <div class="content">
-            <div class="num" id="minutes">0</div>
-            <div class="label">分</div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+            <div style="font-size:1.8em;font-weight:bold;color:#1f2937;margin:0;line-height:1;" id="minutes">0</div>
+            <div style="font-size:0.7em;color:#374151;font-weight:600;margin:0;margin-top:2px;">分</div>
         </div>
     </div>
-    <div class="unit">
-        <svg class="circle" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="40" class="bg"></circle>
-            <circle cx="50" cy="50" r="40" class="progress" id="secondsCircle"></circle>
+    <div style="position:relative;width:90px;height:90px;">
+        <svg style="width:100%;height:100%;transform:rotate(-90deg);" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" stroke-width="8"></circle>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#f59e0b" stroke-width="8" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251" id="secondsCircle" style="transition:stroke-dashoffset 1s ease;"></circle>
         </svg>
-        <div class="content">
-            <div class="num" id="seconds">0</div>
-            <div class="label">秒</div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+            <div style="font-size:1.8em;font-weight:bold;color:#1f2937;margin:0;line-height:1;" id="seconds">0</div>
+            <div style="font-size:0.7em;color:#374151;font-weight:600;margin:0;margin-top:2px;">秒</div>
         </div>
     </div>
 </div>
 <script>
 let interval=null,target=null;
 function setTarget(){const now=new Date();target=new Date(now.getTime()+172800000);target.setHours(23,59,0,0);}
-function updateCircle(id,current,max){const circle=document.getElementById(id);if(!circle)return;const progress=max>0?(current/max):0;circle.style.strokeDashoffset=314-(progress*314);}
+function updateCircle(id,current,max){const circle=document.getElementById(id);if(!circle)return;const progress=max>0?(current/max):0;circle.style.strokeDashoffset=251-(progress*251);}
 function updateDisplay(d,h,m,s){document.getElementById('days').textContent=d;document.getElementById('hours').textContent=h;document.getElementById('minutes').textContent=m;document.getElementById('seconds').textContent=s;updateCircle('daysCircle',2-d,2);updateCircle('hoursCircle',24-h,24);updateCircle('minutesCircle',60-m,60);updateCircle('secondsCircle',60-s,60);}
 function startCountdown(){if(interval)clearInterval(interval);interval=setInterval(()=>{const now=new Date();const diff=target-now;if(diff<=0){updateDisplay(0,0,0,0);clearInterval(interval);setTimeout(()=>{setTarget();startCountdown();},1000);}else{const d=Math.floor(diff/86400000);const h=Math.floor((diff%86400000)/3600000);const m=Math.floor((diff%3600000)/60000);const s=Math.floor((diff%60000)/1000);updateDisplay(d,h,m,s);}},1000);}
 function init(){setTarget();const now=new Date();const diff=target-now;if(diff>0){const d=Math.floor(diff/86400000);const h=Math.floor((diff%86400000)/3600000);const m=Math.floor((diff%3600000)/60000);const s=Math.floor((diff%60000)/1000);updateDisplay(d,h,m,s);}startCountdown();}
