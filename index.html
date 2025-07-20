@@ -143,39 +143,12 @@
         /* 手機響應式 */
         @media (max-width: 480px) {
             .countdown-wrapper {
-                padding: 15px 0;
+                padding: 8px 0;
             }
             
             .countdown-container {
                 gap: 5px;
-                padding: 0 10px;
-            }
-            
-            .time-unit {
-                min-width: 70px;
-                max-width: 100px;
-            }
-            
-            .time-number {
-                font-size: 1.5em;
-                margin-bottom: 2px;
-            }
-            
-            .time-label {
-                font-size: 0.7em;
-                letter-spacing: 0.5px;
-            }
-            
-            .circle-progress circle {
-                stroke-width: 8;
-            }
-        }
-
-        /* 超小螢幕 */
-        @media (max-width: 360px) {
-            .countdown-container {
-                gap: 3px;
-                padding: 0 8px;
+                padding: 0 5px;
             }
             
             .time-unit {
@@ -183,13 +156,52 @@
                 max-width: 80px;
             }
             
+            .time-content {
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            
             .time-number {
-                font-size: 1.2em;
-                margin-bottom: 1px;
+                font-size: 1.3em;
+                margin-bottom: 2px;
             }
             
             .time-label {
                 font-size: 0.6em;
+                letter-spacing: 0.3px;
+            }
+            
+            .circle-progress circle {
+                stroke-width: 7;
+            }
+        }
+
+        /* 超小螢幕（編輯器模式） */
+        @media (max-width: 400px) {
+            .countdown-container {
+                gap: 3px;
+                padding: 0 3px;
+            }
+            
+            .time-unit {
+                min-width: 50px;
+                max-width: 70px;
+            }
+            
+            .time-content {
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            
+            .time-number {
+                font-size: 1.1em;
+                margin-bottom: 1px;
+            }
+            
+            .time-label {
+                font-size: 0.5em;
+            }
+            
+            .circle-progress circle {
+                stroke-width: 6;
             }
         }
     </style>
