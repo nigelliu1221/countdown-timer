@@ -27,9 +27,10 @@
             margin: 0 auto;
             text-align: center;
             background: transparent;
-            padding: 5px 0;
-            height: auto;
+            padding: 0;
+            height: fit-content;
             min-height: 0;
+            display: inline-block;
         }
 
         .countdown-container {
@@ -40,7 +41,8 @@
             margin: 0 auto;
             max-width: 1200px;
             padding: 0 20px;
-            height: auto;
+            height: fit-content;
+            min-height: 0;
         }
 
         .time-unit {
@@ -118,10 +120,6 @@
 
         /* 平板響應式 */
         @media (max-width: 768px) {
-            .countdown-wrapper {
-                padding: 3px 0;
-            }
-            
             .countdown-container {
                 gap: 8px;
                 padding: 0 15px;
@@ -148,10 +146,6 @@
 
         /* 手機響應式 */
         @media (max-width: 480px) {
-            .countdown-wrapper {
-                padding: 2px 0;
-            }
-            
             .countdown-container {
                 gap: 5px;
                 padding: 0 5px;
@@ -183,10 +177,6 @@
 
         /* 超小螢幕（編輯器模式） */
         @media (max-width: 400px) {
-            .countdown-wrapper {
-                padding: 1px 0;
-            }
-            
             .countdown-container {
                 gap: 2px;
                 padding: 0 2px;
@@ -217,10 +207,6 @@
 
         /* 極小螢幕（編輯器窄模式） */
         @media (max-width: 350px) {
-            .countdown-wrapper {
-                padding: 0;
-            }
-            
             .countdown-container {
                 gap: 1px;
                 padding: 0 1px;
