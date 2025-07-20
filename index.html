@@ -41,13 +41,13 @@
             cursor: pointer;
             font-size: 0;
             transition: all 0.3s ease;
-            width: 5px;
-            height: 5px;
+            width: 6px;
+            height: 6px;
         }
 
         .admin-toggle:hover {
             background: #9ca3af;
-            transform: scale(1.4);
+            transform: scale(1.3);
         }
 
         .admin-panel {
@@ -83,11 +83,12 @@
             display: flex;
             justify-content: center;
             gap: 15px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             margin: 10px 0;
             max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
+            overflow-x: auto;
         }
 
         .time-unit {
@@ -95,11 +96,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 200px;
-            flex: 0 0 auto;
+            min-width: 120px;
+            flex: 1 1 auto;
             background: transparent;
-            padding: 10px 10px;
+            padding: 10px 5px;
             transition: all 0.3s ease;
+            max-width: 250px;
         }
 
         .time-unit:hover {
@@ -108,20 +110,20 @@
 
         .circle-container {
             position: relative;
-            width: 200px;
-            height: 200px;
+            width: min(180px, 18vw);
+            height: min(180px, 18vw);
             margin-bottom: 10px;
         }
 
         .circle-progress {
             transform: rotate(-90deg);
-            width: 200px;
-            height: 200px;
+            width: min(180px, 18vw);
+            height: min(180px, 18vw);
         }
 
         .circle-progress circle {
             fill: none;
-            stroke-width: 14;
+            stroke-width: min(14px, 1.4vw);
             stroke-linecap: round;
         }
 
@@ -131,8 +133,8 @@
 
         .circle-progress-stroke {
             stroke: #fbbf24;
-            stroke-dasharray: 503;
-            stroke-dashoffset: 503;
+            stroke-dasharray: calc(2 * 3.14159 * min(80px, 8vw));
+            stroke-dashoffset: calc(2 * 3.14159 * min(80px, 8vw));
             transition: stroke-dashoffset 1s ease-in-out;
         }
 
@@ -141,19 +143,21 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 4em;
+            font-size: min(4em, 8vw);
             font-weight: bold;
             color: #1e40af;
             line-height: 1;
         }
 
         .time-label {
-            font-size: 1.2em;
+            font-size: min(1.2em, 2.5vw);
             color: #1e40af;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: min(2px, 0.3vw);
             margin-top: 5px;
+            text-align: center;
+            white-space: nowrap;
         }
 
         .controls {
@@ -320,29 +324,35 @@
 
         @media (max-width: 600px) {
             .countdown-container {
-                gap: 10px;
+                gap: 8px;
+                padding: 0 10px;
             }
             
             .time-unit {
-                min-width: 140px;
+                min-width: 80px;
+                padding: 5px 2px;
             }
             
-            .circle-container {
-                width: 140px;
-                height: 140px;
+            .admin-toggle {
+                width: 5px;
+                height: 5px;
             }
             
-            .circle-progress {
-                width: 140px;
-                height: 140px;
-            }
-            
-            .time-number {
-                font-size: 2.8em;
-            }
-            
-            .time-label {
+            .status {
                 font-size: 1em;
+                margin-top: 8px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .countdown-container {
+                gap: 5px;
+                padding: 0 5px;
+            }
+            
+            .time-unit {
+                min-width: 70px;
+                padding: 5px 1px;
             }
         }
     </style>
@@ -409,8 +419,8 @@
             <div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress">
-                        <circle cx="100" cy="100" r="80" class="circle-bg-stroke"></circle>
-                        <circle cx="100" cy="100" r="80" class="circle-progress-stroke" id="daysCircle"></circle>
+                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-bg-stroke"></circle>
+                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-progress-stroke" id="daysCircle"></circle>
                     </svg>
                     <div class="time-number" id="days">0</div>
                 </div>
@@ -419,8 +429,8 @@
             <div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress">
-                        <circle cx="100" cy="100" r="80" class="circle-bg-stroke"></circle>
-                        <circle cx="100" cy="100" r="80" class="circle-progress-stroke" id="hoursCircle"></circle>
+                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-bg-stroke"></circle>
+                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-progress-stroke" id="hoursCircle"></circle>
                     </svg>
                     <div class="time-number" id="hours">0</div>
                 </div>
@@ -429,8 +439,8 @@
             <div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress">
-                        <circle cx="100" cy="100" r="80" class="circle-bg-stroke"></circle>
-                        <circle cx="100" cy="100" r="80" class="circle-progress-stroke" id="minutesCircle"></circle>
+                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-bg-stroke"></circle>
+                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-progress-stroke" id="minutesCircle"></circle>
                     </svg>
                     <div class="time-number" id="minutes">0</div>
                 </div>
@@ -439,8 +449,8 @@
             <div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress">
-                        <circle cx="100" cy="100" r="80" class="circle-bg-stroke"></circle>
-                        <circle cx="100" cy="100" r="80" class="circle-progress-stroke" id="secondsCircle"></circle>
+                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-bg-stroke"></circle>
+                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-progress-stroke" id="secondsCircle"></circle>
                     </svg>
                     <div class="time-number" id="seconds">0</div>
                 </div>
@@ -645,7 +655,8 @@
 
         function updateCircleProgress(elementId, current, max) {
             const circle = document.getElementById(elementId);
-            const circumference = 2 * Math.PI * 80;
+            const radius = Math.min(80, window.innerWidth * 0.08);
+            const circumference = 2 * Math.PI * radius;
             const progress = max > 0 ? (current / max) : 0;
             const offset = circumference - (progress * circumference);
             
