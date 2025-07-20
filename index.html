@@ -82,7 +82,7 @@
         .countdown-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 5px;
             flex-wrap: nowrap;
             margin: 10px 0;
             max-width: 1200px;
@@ -96,12 +96,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 120px;
-            flex: 1 1 auto;
+            min-width: min(160px, 16vw);
+            flex: 0 0 auto;
             background: transparent;
-            padding: 10px 5px;
+            padding: 10px 0px;
             transition: all 0.3s ease;
-            max-width: 250px;
         }
 
         .time-unit:hover {
@@ -110,15 +109,15 @@
 
         .circle-container {
             position: relative;
-            width: min(180px, 18vw);
-            height: min(180px, 18vw);
+            width: min(160px, 16vw);
+            height: min(160px, 16vw);
             margin-bottom: 10px;
         }
 
         .circle-progress {
             transform: rotate(-90deg);
-            width: min(180px, 18vw);
-            height: min(180px, 18vw);
+            width: min(160px, 16vw);
+            height: min(160px, 16vw);
         }
 
         .circle-progress circle {
@@ -133,8 +132,8 @@
 
         .circle-progress-stroke {
             stroke: #fbbf24;
-            stroke-dasharray: calc(2 * 3.14159 * min(80px, 8vw));
-            stroke-dashoffset: calc(2 * 3.14159 * min(80px, 8vw));
+            stroke-dasharray: calc(2 * 3.14159 * min(70px, 7vw));
+            stroke-dashoffset: calc(2 * 3.14159 * min(70px, 7vw));
             transition: stroke-dashoffset 1s ease-in-out;
         }
 
@@ -150,11 +149,11 @@
         }
 
         .time-label {
-            font-size: min(1.2em, 2.5vw);
+            font-size: min(1em, 2vw);
             color: #1e40af;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: min(2px, 0.3vw);
+            letter-spacing: min(1px, 0.2vw);
             margin-top: 5px;
             text-align: center;
             white-space: nowrap;
@@ -305,7 +304,7 @@
 
         .status {
             color: #1e40af;
-            font-size: 1.1em;
+            font-size: min(1em, 2.2vw);
             margin-top: 10px;
             font-weight: bold;
         }
@@ -324,13 +323,18 @@
 
         @media (max-width: 600px) {
             .countdown-container {
-                gap: 8px;
+                gap: 3px;
                 padding: 0 10px;
             }
             
             .time-unit {
                 min-width: 80px;
-                padding: 5px 2px;
+                padding: 5px 0px;
+            }
+            
+            .time-label {
+                font-size: min(0.8em, 1.8vw);
+                letter-spacing: min(0.5px, 0.1vw);
             }
             
             .admin-toggle {
@@ -339,20 +343,31 @@
             }
             
             .status {
-                font-size: 1em;
+                font-size: min(0.9em, 2vw);
                 margin-top: 8px;
             }
         }
 
         @media (max-width: 400px) {
             .countdown-container {
-                gap: 5px;
+                gap: 2px;
                 padding: 0 5px;
             }
             
             .time-unit {
                 min-width: 70px;
-                padding: 5px 1px;
+                padding: 5px 0px;
+            }
+            
+            .time-label {
+                font-size: min(0.7em, 1.5vw);
+                letter-spacing: min(0.3px, 0.05vw);
+                margin-top: 3px;
+            }
+            
+            .status {
+                font-size: min(0.8em, 1.8vw);
+                margin-top: 6px;
             }
         }
     </style>
@@ -366,6 +381,15 @@
             
             <div id="adminControls" style="display: none;">
                 <div class="controls">
+                    <div class="input-group">
+                        <select id="clockSelect">
+                            <option value="clock1">時鐘 1</option>
+                            <option value="clock2">時鐘 2</option>
+                            <option value="clock3">時鐘 3</option>
+                            <option value="clock4">時鐘 4</option>
+                            <option value="clock5">時鐘 5</option>
+                        </select>
+                    </div>
                     <div class="input-group">
                         <input type="date" id="targetDate">
                     </div>
@@ -419,8 +443,8 @@
             <div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress">
-                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-bg-stroke"></circle>
-                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-progress-stroke" id="daysCircle"></circle>
+                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-bg-stroke"></circle>
+                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-progress-stroke" id="daysCircle"></circle>
                     </svg>
                     <div class="time-number" id="days">0</div>
                 </div>
@@ -429,8 +453,8 @@
             <div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress">
-                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-bg-stroke"></circle>
-                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-progress-stroke" id="hoursCircle"></circle>
+                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-bg-stroke"></circle>
+                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-progress-stroke" id="hoursCircle"></circle>
                     </svg>
                     <div class="time-number" id="hours">0</div>
                 </div>
@@ -439,8 +463,8 @@
             <div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress">
-                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-bg-stroke"></circle>
-                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-progress-stroke" id="minutesCircle"></circle>
+                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-bg-stroke"></circle>
+                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-progress-stroke" id="minutesCircle"></circle>
                     </svg>
                     <div class="time-number" id="minutes">0</div>
                 </div>
@@ -449,8 +473,8 @@
             <div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress">
-                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-bg-stroke"></circle>
-                        <circle cx="50%" cy="50%" r="min(80px, 8vw)" class="circle-progress-stroke" id="secondsCircle"></circle>
+                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-bg-stroke"></circle>
+                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-progress-stroke" id="secondsCircle"></circle>
                     </svg>
                     <div class="time-number" id="seconds">0</div>
                 </div>
@@ -505,7 +529,7 @@
             const localOffset = targetDateTime.getTimezoneOffset();
             targetDateTime = new Date(targetDateTime.getTime() + (taipeiOffset + localOffset) * 60000);
 
-            window.countdownSettings = {
+            const settings = {
                 targetDateTime: targetDateTime.toISOString(),
                 date: date,
                 time: time,
@@ -514,6 +538,10 @@
                 displayText: document.getElementById('displayText').value || '募資倒數計時',
                 endText: document.getElementById('endText').value || '募資已結束！'
             };
+
+            // 保存到 localStorage（使用時鐘ID區分）
+            localStorage.setItem(`countdownSettings_${currentClockId}`, JSON.stringify(settings));
+            window.countdownSettings = settings;
 
             saveColors();
             updateLanguage();
@@ -531,31 +559,79 @@
                 textColor: document.getElementById('textColor').value,
                 progressColor: document.getElementById('progressColor').value
             };
+            
+            // 保存到 localStorage（使用時鐘ID區分）
+            localStorage.setItem(`colorSettings_${currentClockId}`, JSON.stringify(colors));
             window.colorSettings = colors;
             applyColors();
         }
 
         function loadSavedSettings() {
+            // 從 localStorage 載入當前時鐘的設定
+            const savedSettings = localStorage.getItem(`countdownSettings_${currentClockId}`);
+            if (savedSettings) {
+                window.countdownSettings = JSON.parse(savedSettings);
+            } else {
+                window.countdownSettings = null;
+            }
+            
             if (window.countdownSettings) {
                 const settings = window.countdownSettings;
-                document.getElementById('targetDate').value = settings.date;
-                // 不需要載入時間，固定為 23:59
+                document.getElementById('targetDate').value = settings.date || '';
                 document.getElementById('autoRestart').value = settings.autoRestart || 'none';
                 document.getElementById('language').value = settings.language || 'en';
-                document.getElementById('displayText').value = settings.displayText || '募資倒數計時';
-                document.getElementById('endText').value = settings.endText || '募資已結束！';
-                targetDateTime = new Date(settings.targetDateTime);
+                document.getElementById('displayText').value = settings.displayText || '';
+                document.getElementById('endText').value = settings.endText || '';
+                
+                if (settings.targetDateTime) {
+                    targetDateTime = new Date(settings.targetDateTime);
+                    updateLanguage();
+                    startCountdown();
+                    
+                    // 顯示設定的文字
+                    const displayText = settings.displayText || '募資倒數計時';
+                    document.getElementById('status').textContent = displayText;
+                }
+            } else {
+                // 清空表單
+                document.getElementById('targetDate').value = '';
+                document.getElementById('autoRestart').value = 'none';
+                document.getElementById('language').value = 'en';
+                document.getElementById('displayText').value = '';
+                document.getElementById('endText').value = '';
+                
+                // 停止倒數
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                }
+                targetDateTime = null;
+                updateDisplay(0, 0, 0, 0);
+                document.getElementById('status').textContent = '募資倒數計時';
                 updateLanguage();
-                startCountdown();
             }
         }
 
         function loadSavedColors() {
+            // 從 localStorage 載入當前時鐘的顏色設定
+            const savedColors = localStorage.getItem(`colorSettings_${currentClockId}`);
+            if (savedColors) {
+                window.colorSettings = JSON.parse(savedColors);
+            } else {
+                window.colorSettings = null;
+            }
+            
             if (window.colorSettings) {
                 const colors = window.colorSettings;
                 document.getElementById('numberColor').value = colors.numberColor;
                 document.getElementById('textColor').value = colors.textColor || '#1e40af';
                 document.getElementById('progressColor').value = colors.progressColor;
+                applyColors();
+            } else {
+                // 重置為預設顏色
+                document.getElementById('numberColor').value = '#1e40af';
+                document.getElementById('textColor').value = '#1e40af';
+                document.getElementById('progressColor').value = '#fbbf24';
                 applyColors();
             }
         }
@@ -611,9 +687,20 @@
                 countdownInterval = null;
             }
             targetDateTime = null;
+            
+            // 清除當前時鐘的 localStorage
+            localStorage.removeItem(`countdownSettings_${currentClockId}`);
             window.countdownSettings = null;
+            
             updateDisplay(0, 0, 0, 0);
             document.getElementById('status').textContent = '募資倒數計時';
+            updateLanguage();
+            
+            // 清空表單
+            document.getElementById('targetDate').value = '';
+            document.getElementById('displayText').value = '';
+            document.getElementById('endText').value = '';
+            
             toggleAdmin();
         }
 
@@ -655,7 +742,7 @@
 
         function updateCircleProgress(elementId, current, max) {
             const circle = document.getElementById(elementId);
-            const radius = Math.min(80, window.innerWidth * 0.08);
+            const radius = Math.min(70, window.innerWidth * 0.07);
             const circumference = 2 * Math.PI * radius;
             const progress = max > 0 ? (current / max) : 0;
             const offset = circumference - (progress * circumference);
@@ -700,6 +787,8 @@
                                 settings.date = newDate;
                                 settings.time = newTime;
                                 
+                                // 保存到 localStorage（使用時鐘ID區分）
+                                localStorage.setItem(`countdownSettings_${currentClockId}`, JSON.stringify(settings));
                                 window.countdownSettings = settings;
                                 
                                 const displayText = settings.displayText || '募資倒數計時';
@@ -742,6 +831,9 @@
             
             // 語言選擇器事件監聽
             document.getElementById('language').addEventListener('change', updateLanguage);
+            
+            // 時鐘選擇器事件監聽
+            document.getElementById('clockSelect').addEventListener('change', switchClock);
             
             if (window.countdownSettings) {
                 loadSavedSettings();
