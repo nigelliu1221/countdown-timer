@@ -11,14 +11,14 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
-            background: transparent;
+        html, body {
+            height: auto;
+            min-height: 0;
             margin: 0;
             padding: 0;
+            font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
+            background: transparent;
             overflow-x: hidden;
-            height: auto;
-            min-height: auto;
         }
 
         .countdown-wrapper {
@@ -27,12 +27,9 @@
             margin: 0 auto;
             text-align: center;
             background: transparent;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            padding: 5px 0;
             height: auto;
-            min-height: auto;
+            min-height: 0;
         }
 
         .countdown-container {
@@ -43,6 +40,7 @@
             margin: 0 auto;
             max-width: 1200px;
             padding: 0 20px;
+            height: auto;
         }
 
         .time-unit {
@@ -120,6 +118,10 @@
 
         /* 平板響應式 */
         @media (max-width: 768px) {
+            .countdown-wrapper {
+                padding: 3px 0;
+            }
+            
             .countdown-container {
                 gap: 8px;
                 padding: 0 15px;
@@ -147,7 +149,7 @@
         /* 手機響應式 */
         @media (max-width: 480px) {
             .countdown-wrapper {
-                padding: 0;
+                padding: 2px 0;
             }
             
             .countdown-container {
@@ -181,6 +183,10 @@
 
         /* 超小螢幕（編輯器模式） */
         @media (max-width: 400px) {
+            .countdown-wrapper {
+                padding: 1px 0;
+            }
+            
             .countdown-container {
                 gap: 2px;
                 padding: 0 2px;
@@ -211,6 +217,10 @@
 
         /* 極小螢幕（編輯器窄模式） */
         @media (max-width: 350px) {
+            .countdown-wrapper {
+                padding: 0;
+            }
+            
             .countdown-container {
                 gap: 1px;
                 padding: 0 1px;
