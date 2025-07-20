@@ -19,6 +19,7 @@
             font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
             background: transparent;
             overflow-x: hidden;
+            line-height: 0;
         }
 
         .countdown-wrapper {
@@ -28,9 +29,10 @@
             text-align: center;
             background: transparent;
             padding: 0;
-            height: fit-content;
+            height: auto;
             min-height: 0;
-            display: inline-block;
+            display: block;
+            line-height: 0;
         }
 
         .countdown-container {
@@ -38,11 +40,12 @@
             justify-content: center;
             gap: 10px;
             flex-wrap: nowrap;
-            margin: 0 auto;
+            margin: 0;
             max-width: 1200px;
             padding: 0 20px;
-            height: fit-content;
+            height: auto;
             min-height: 0;
+            line-height: 0;
         }
 
         .time-unit {
@@ -251,8 +254,8 @@
                         <div class="time-label">天</div>
                     </div>
                 </div>
-            </div>
-            <div class="time-unit">
+            </div><!--
+            --><div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress" viewBox="0 0 160 160">
                         <circle cx="80" cy="80" r="70" class="circle-bg-stroke"></circle>
@@ -263,8 +266,8 @@
                         <div class="time-label">小時</div>
                     </div>
                 </div>
-            </div>
-            <div class="time-unit">
+            </div><!--
+            --><div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress" viewBox="0 0 160 160">
                         <circle cx="80" cy="80" r="70" class="circle-bg-stroke"></circle>
@@ -275,8 +278,8 @@
                         <div class="time-label">分</div>
                     </div>
                 </div>
-            </div>
-            <div class="time-unit">
+            </div><!--
+            --><div class="time-unit">
                 <div class="circle-container">
                     <svg class="circle-progress" viewBox="0 0 160 160">
                         <circle cx="80" cy="80" r="70" class="circle-bg-stroke"></circle>
