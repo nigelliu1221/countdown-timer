@@ -12,24 +12,20 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
             background: transparent;
             margin: 0;
             padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .countdown-wrapper {
             width: 100%;
             max-width: 1200px;
+            margin: 0 auto;
             text-align: center;
             background: transparent;
-            padding: 0;
-            margin: 0;
+            padding: 20px 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -38,13 +34,11 @@
         .countdown-container {
             display: flex;
             justify-content: center;
-            gap: 5px;
+            gap: 10px;
             flex-wrap: nowrap;
-            margin: 0;
+            margin: 0 auto;
             max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            overflow-x: auto;
+            padding: 0 20px;
         }
 
         .time-unit {
@@ -52,128 +46,150 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: min(160px, 16vw);
-            flex: 0 0 auto;
+            min-width: 120px;
+            flex: 1;
+            max-width: 200px;
             background: transparent;
             padding: 0;
             transition: all 0.3s ease;
         }
 
         .time-unit:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
         }
 
         .circle-container {
             position: relative;
-            width: min(160px, 16vw);
-            height: min(160px, 16vw);
-            margin: 0;
+            width: 100%;
+            max-width: 160px;
+            aspect-ratio: 1;
+            margin: 0 auto;
         }
 
         .circle-progress {
             transform: rotate(-90deg);
-            width: min(160px, 16vw);
-            height: min(160px, 16vw);
+            width: 100%;
+            height: 100%;
         }
 
         .circle-progress circle {
             fill: none;
-            stroke-width: min(12px, 1.2vw);
+            stroke-width: 12;
             stroke-linecap: round;
         }
 
         .circle-bg-stroke {
-            stroke: #f3f4f6;
+            stroke: #e5e7eb;
         }
 
         .circle-progress-stroke {
-            stroke: #fbbf24;
-            stroke-dasharray: calc(2 * 3.14159 * min(70px, 7vw));
-            stroke-dashoffset: calc(2 * 3.14159 * min(70px, 7vw));
+            stroke: #f59e0b;
+            stroke-dasharray: 439.82;
+            stroke-dashoffset: 439.82;
             transition: stroke-dashoffset 1s ease-in-out;
         }
 
-        .time-number {
+        .time-content {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: min(4em, 8vw);
-            font-weight: bold;
-            color: #1e40af;
+            text-align: center;
             line-height: 1;
         }
 
-        .time-label {
-            font-size: min(1em, 2vw);
-            color: #1e40af;
+        .time-number {
+            font-size: 2.5em;
             font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+
+        .time-label {
+            font-size: 1em;
+            color: #374151;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: min(1px, 0.2vw);
-            margin: 0;
-            text-align: center;
+            letter-spacing: 1px;
             white-space: nowrap;
         }
 
-        .status {
-            color: #1e40af;
-            font-size: min(1em, 2.2vw);
-            margin: 0;
-            font-weight: bold;
-            display: none;
-        }
-
-        .finished {
-            animation: pulse 1s infinite;
-            color: #ef4444;
-            font-size: 1.2em;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @media (max-width: 600px) {
+        /* 平板響應式 */
+        @media (max-width: 768px) {
             .countdown-container {
-                gap: 3px;
+                gap: 8px;
+                padding: 0 15px;
+            }
+            
+            .time-unit {
+                min-width: 90px;
+                max-width: 150px;
+            }
+            
+            .time-number {
+                font-size: 2em;
+                margin-bottom: 3px;
+            }
+            
+            .time-label {
+                font-size: 0.9em;
+            }
+            
+            .circle-progress circle {
+                stroke-width: 10;
+            }
+        }
+
+        /* 手機響應式 */
+        @media (max-width: 480px) {
+            .countdown-wrapper {
+                padding: 15px 0;
+            }
+            
+            .countdown-container {
+                gap: 5px;
                 padding: 0 10px;
             }
             
             .time-unit {
-                min-width: 80px;
-                padding: 0;
+                min-width: 70px;
+                max-width: 100px;
+            }
+            
+            .time-number {
+                font-size: 1.5em;
+                margin-bottom: 2px;
             }
             
             .time-label {
-                font-size: min(0.8em, 1.8vw);
-                letter-spacing: min(0.5px, 0.1vw);
+                font-size: 0.7em;
+                letter-spacing: 0.5px;
             }
             
-            .status {
-                font-size: min(0.9em, 2vw);
+            .circle-progress circle {
+                stroke-width: 8;
             }
         }
 
-        @media (max-width: 400px) {
+        /* 超小螢幕 */
+        @media (max-width: 360px) {
             .countdown-container {
-                gap: 2px;
-                padding: 0 5px;
+                gap: 3px;
+                padding: 0 8px;
             }
             
             .time-unit {
-                min-width: 70px;
-                padding: 0;
+                min-width: 60px;
+                max-width: 80px;
+            }
+            
+            .time-number {
+                font-size: 1.2em;
+                margin-bottom: 1px;
             }
             
             .time-label {
-                font-size: min(0.7em, 1.5vw);
-                letter-spacing: min(0.3px, 0.05vw);
-            }
-            
-            .status {
-                font-size: min(0.8em, 1.8vw);
+                font-size: 0.6em;
             }
         }
     </style>
@@ -183,67 +199,72 @@
         <div class="countdown-container">
             <div class="time-unit">
                 <div class="circle-container">
-                    <svg class="circle-progress">
-                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-bg-stroke"></circle>
-                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-progress-stroke" id="daysCircle"></circle>
+                    <svg class="circle-progress" viewBox="0 0 160 160">
+                        <circle cx="80" cy="80" r="70" class="circle-bg-stroke"></circle>
+                        <circle cx="80" cy="80" r="70" class="circle-progress-stroke" id="daysCircle"></circle>
                     </svg>
-                    <div class="time-number" id="days">0</div>
+                    <div class="time-content">
+                        <div class="time-number" id="days">0</div>
+                        <div class="time-label">天</div>
+                    </div>
                 </div>
-                <div class="time-label">天</div>
             </div>
             <div class="time-unit">
                 <div class="circle-container">
-                    <svg class="circle-progress">
-                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-bg-stroke"></circle>
-                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-progress-stroke" id="hoursCircle"></circle>
+                    <svg class="circle-progress" viewBox="0 0 160 160">
+                        <circle cx="80" cy="80" r="70" class="circle-bg-stroke"></circle>
+                        <circle cx="80" cy="80" r="70" class="circle-progress-stroke" id="hoursCircle"></circle>
                     </svg>
-                    <div class="time-number" id="hours">0</div>
+                    <div class="time-content">
+                        <div class="time-number" id="hours">0</div>
+                        <div class="time-label">小時</div>
+                    </div>
                 </div>
-                <div class="time-label">小時</div>
             </div>
             <div class="time-unit">
                 <div class="circle-container">
-                    <svg class="circle-progress">
-                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-bg-stroke"></circle>
-                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-progress-stroke" id="minutesCircle"></circle>
+                    <svg class="circle-progress" viewBox="0 0 160 160">
+                        <circle cx="80" cy="80" r="70" class="circle-bg-stroke"></circle>
+                        <circle cx="80" cy="80" r="70" class="circle-progress-stroke" id="minutesCircle"></circle>
                     </svg>
-                    <div class="time-number" id="minutes">0</div>
+                    <div class="time-content">
+                        <div class="time-number" id="minutes">0</div>
+                        <div class="time-label">分</div>
+                    </div>
                 </div>
-                <div class="time-label">分</div>
             </div>
             <div class="time-unit">
                 <div class="circle-container">
-                    <svg class="circle-progress">
-                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-bg-stroke"></circle>
-                        <circle cx="50%" cy="50%" r="min(70px, 7vw)" class="circle-progress-stroke" id="secondsCircle"></circle>
+                    <svg class="circle-progress" viewBox="0 0 160 160">
+                        <circle cx="80" cy="80" r="70" class="circle-bg-stroke"></circle>
+                        <circle cx="80" cy="80" r="70" class="circle-progress-stroke" id="secondsCircle"></circle>
                     </svg>
-                    <div class="time-number" id="seconds">0</div>
+                    <div class="time-content">
+                        <div class="time-number" id="seconds">0</div>
+                        <div class="time-label">秒</div>
+                    </div>
                 </div>
-                <div class="time-label">秒</div>
             </div>
         </div>
     </div>
 
     <script>
         let countdownInterval = null;
+        let targetDateTime = null;
 
-        // 獲取兩天後的 23:59
-        function getTwoDaysLater() {
+        // 設定目標時間：兩天後的 23:59
+        function setTargetDateTime() {
             const now = new Date();
-            const taipeiNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Taipei"}));
-            
-            // 設定為兩天後的 23:59
-            const targetDate = new Date(taipeiNow);
-            targetDate.setDate(targetDate.getDate() + 2);
-            targetDate.setHours(23, 59, 0, 0);
-            
-            return targetDate;
+            targetDateTime = new Date(now.getTime() + (2 * 24 * 60 * 60 * 1000));
+            targetDateTime.setHours(23, 59, 0, 0);
         }
 
         // 更新圓形進度條
         function updateCircleProgress(elementId, current, max) {
             const circle = document.getElementById(elementId);
-            const radius = Math.min(70, window.innerWidth * 0.07);
+            if (!circle) return;
+            
+            const radius = 70;
             const circumference = 2 * Math.PI * radius;
             const progress = max > 0 ? (current / max) : 0;
             const offset = circumference - (progress * circumference);
@@ -259,10 +280,10 @@
             document.getElementById('minutes').textContent = minutes;
             document.getElementById('seconds').textContent = seconds;
 
-            updateCircleProgress('daysCircle', days, 2); // 最大2天
-            updateCircleProgress('hoursCircle', hours, 24);
-            updateCircleProgress('minutesCircle', minutes, 60);
-            updateCircleProgress('secondsCircle', seconds, 60);
+            updateCircleProgress('daysCircle', 2 - days, 2);
+            updateCircleProgress('hoursCircle', 24 - hours, 24);
+            updateCircleProgress('minutesCircle', 60 - minutes, 60);
+            updateCircleProgress('secondsCircle', 60 - seconds, 60);
         }
 
         // 開始倒數
@@ -272,26 +293,19 @@
             }
 
             countdownInterval = setInterval(() => {
-                const targetDateTime = getTwoDaysLater();
                 const now = new Date();
-                const taipeiNow = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Taipei"}));
-                const timeDiff = targetDateTime - taipeiNow;
+                const timeDiff = targetDateTime - now;
 
                 if (timeDiff <= 0) {
-                    // 時間到了，自動重新設定為新的兩天後
-                    const days = 1;
-                    const hours = 23;
-                    const minutes = 59;
-                    const seconds = 59;
-                    updateDisplay(days, hours, minutes, seconds);
+                    updateDisplay(0, 0, 0, 0);
+                    clearInterval(countdownInterval);
                     
-                    // 1秒後重新開始，不顯示任何訊息
                     setTimeout(() => {
+                        setTargetDateTime();
                         startCountdown();
                     }, 1000);
                     
                 } else {
-                    // 計算剩餘時間
                     const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
                     const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
@@ -304,7 +318,20 @@
 
         // 初始化
         function init() {
-            updateDisplay(1, 23, 59, 59); // 初始顯示
+            setTargetDateTime();
+            
+            const now = new Date();
+            const timeDiff = targetDateTime - now;
+            
+            if (timeDiff > 0) {
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+                
+                updateDisplay(days, hours, minutes, seconds);
+            }
+            
             startCountdown();
         }
 
